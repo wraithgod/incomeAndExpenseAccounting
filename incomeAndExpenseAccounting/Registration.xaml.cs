@@ -37,15 +37,33 @@ namespace incomeAndExpenseAccounting
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            
             //Taking data from TextBoxes
             string lastName = txtLastName.Text;
             string firstName = txtFirstName.Text;
             string email = txtEmail.Text;
             string password = txtPassword.Password;
             string confirmPassword = txtConfirmPassword.Password;
+            bool existsMail = true;
+            //check valid
+            bool isEmailValid = IsValidEmail(email);
+            if (isEmailValid)
+            {
+                existsMail = AppData.db.Users.Any(u => u.Email == email);
+            }
 
+            bool lastNameExists = lastName.Length > 0;
+            bool firstNameExists = firstName.Length > 0;
+
+            bool correctPass = password.Length > 8 && password == confirmPassword;
+
+            if (!lastNameExists || !firstNameExists || !correctPass || !existsMail) { 
             
+            
+            
+            }
+
         }
 
 

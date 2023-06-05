@@ -24,5 +24,10 @@ namespace incomeAndExpenseAccounting
         {
             InitializeComponent();
         }
+
+        private void Button_Click()
+        {
+
+        }
     }
 }
