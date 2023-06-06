@@ -36,43 +36,49 @@ namespace incomeAndExpenseAccounting
             return Regex.IsMatch(email, pattern);
         }
 
-        
+
         private void Button_Click(object sender, RoutedEventArgs e)
-        { 
-            
+        {
             //Taking data from TextBoxes
             string lastName = txtLastName.Text;
             string firstName = txtFirstName.Text;
             string email = txtEmail.Text;
             string password = txtPassword.Password;
             string confirmPassword = txtConfirmPassword.Password;
+
             bool existsMail = true;
 
-            //check valid
+            // Check if email is valid
             bool isEmailValid = IsValidEmail(email);
+
             if (isEmailValid)
             {
+                // Check if email already exists in the database
                 existsMail = AppData.db.Users.Any(u => u.Email == email);
             }
 
-            bool lastNameExists = lastName.Length > 0;
-            bool firstNameExists = firstName.Length > 0;
+            bool lastNameExists = !string.IsNullOrEmpty(lastName);
+            bool firstNameExists = !string.IsNullOrEmpty(firstName);
 
             bool correctPass = password.Length >= 8 && password == confirmPassword;
 
-            if (lastNameExists && firstNameExists && correctPass || !existsMail) {
-                Users newUser = new Users();
+            if (lastNameExists && firstNameExists && correctPass && !existsMail)
+            {
+                // Create a new instance of User and set its properties
+                Users newUser = new Users()
                 {
-                    string FirstName = firstName;
-                    string LastName = lastName;
-                    string Email = email;
-                    string Password = password;
-                }
-                
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    Password = password
+                };
+
+                // Add the new user to the Users table
                 AppData.db.Users.Add(newUser);
+
+                // Save changes to the database
                 AppData.db.SaveChanges();
             }
-
         }
 
 
