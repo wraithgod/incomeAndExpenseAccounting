@@ -58,9 +58,9 @@ namespace incomeAndExpenseAccounting
             bool lastNameExists = lastName.Length > 0;
             bool firstNameExists = firstName.Length > 0;
 
-            bool correctPass = password.Length > 8 && password == confirmPassword;
+            bool correctPass = password.Length >= 8 && password == confirmPassword;
 
-            if (!lastNameExists || !firstNameExists || !correctPass || !existsMail) {
+            if (lastNameExists && firstNameExists && correctPass || !existsMail) {
                 Users newUser = new Users();
                 {
                     string FirstName = firstName;
