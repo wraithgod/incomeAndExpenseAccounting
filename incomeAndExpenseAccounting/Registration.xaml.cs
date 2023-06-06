@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
-
+using System.Net.NetworkInformation;
 
 namespace incomeAndExpenseAccounting
 {
@@ -36,6 +36,7 @@ namespace incomeAndExpenseAccounting
             return Regex.IsMatch(email, pattern);
         }
 
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         { 
             
@@ -46,6 +47,7 @@ namespace incomeAndExpenseAccounting
             string password = txtPassword.Password;
             string confirmPassword = txtConfirmPassword.Password;
             bool existsMail = true;
+
             //check valid
             bool isEmailValid = IsValidEmail(email);
             if (isEmailValid)
@@ -58,10 +60,17 @@ namespace incomeAndExpenseAccounting
 
             bool correctPass = password.Length > 8 && password == confirmPassword;
 
-            if (!lastNameExists || !firstNameExists || !correctPass || !existsMail) { 
-            
-            
-            
+            if (!lastNameExists || !firstNameExists || !correctPass || !existsMail) {
+                Users newUser = new Users();
+                {
+                    string FirstName = firstName;
+                    string LastName = lastName;
+                    string Email = email;
+                    string Password = password;
+                }
+                
+                AppData.db.Users.Add(newUser);
+                AppData.db.SaveChanges();
             }
 
         }
