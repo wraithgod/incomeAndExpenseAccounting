@@ -46,5 +46,12 @@
         </StackPanel>
 
         <Button Content="Зарегистрироваться" HorizontalAlignment="Center" Margin="0,10,0,-30" Grid.Row="6" Click="Button_Click"/>
+
+        <TextBlock HorizontalAlignment="Center" Margin="0,35,0,-51" Grid.Row="8">
+        Уже есть аккаунт?
+        <Hyperlink x:Name="hyperlink" Click="HyperLinkClick">
+            Войти
+        </Hyperlink>
+        </TextBlock>
     </Grid>
 </Window>

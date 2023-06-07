@@ -26,6 +26,15 @@ namespace incomeAndExpenseAccounting
             InitializeComponent();
         }
 
+        // Hyperlink redirect
+        private void HyperLinkClick(object sender, RoutedEventArgs e)
+        {
+            LoginPage loginPage = new LoginPage();
+            loginPage.Show();
+
+            Window.GetWindow(this).Close();
+        }
+
 
         private bool IsValidEmail(string email)
         {

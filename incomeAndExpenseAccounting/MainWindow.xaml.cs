@@ -23,6 +23,12 @@ namespace incomeAndExpenseAccounting
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new Expenses();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
