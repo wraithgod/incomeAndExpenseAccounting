@@ -17,18 +17,57 @@ namespace incomeAndExpenseAccounting
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
+    /// </summary>                                                                                                                                    
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new Expenses();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void Update() { 
+            var content = AppData.db.Expenses.ToList();
+            ChecksList.ItemsSource = content;
+        }
+
+        private void AddIncome_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void AddExpense_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExportData_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditCategory_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateClick(object sender, RoutedEventArgs e)
+        {
+            Update();
         }
     }
 }

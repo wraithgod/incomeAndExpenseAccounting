@@ -5,29 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:incomeAndExpenseAccounting"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        Title="MainWindow" Height="450" Width="800">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Add Income" Margin="10" Click="Button_Click"/>
-            <Button Content="Add Expense" Margin="10"/>
-            <Button Content="Export Data" Margin="10"/>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBlock Margin="10,12,0,0">Ваш текущий баланс:</TextBlock>
+            <TextBlock  Margin="10,12,0,0" Text="{Binding Balance}"/>
+            <TextBlock Text="₽" Margin="10,12,0,0"/>
         </StackPanel>
-        <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding Expenses}">
-            <ListView.View>
+
+        <StackPanel DockPanel.Dock="Right" Orientation="Vertical" Margin="10">
+            <Button Content="Изменить категории" Click="EditCategory_Click"/>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+            <Button Content="Добавить доход" Margin="10" Click="AddIncome_Click"/>
+            <Button Content="Добавить расход" Margin="10" Click="AddExpense_Click"/>
+            <Button Content="Экспорт данных" Margin="10" Click="ExportData_Click"/>
+
+            <Button Content="Обновить" Margin="10" Click="UpdateClick"/>
+        </StackPanel>
+
+        <ListView x:Name="ChecksList" Margin="10" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View >
                 <GridView>
-                    <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Type}"/>
+                    <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Description}"/>
                     <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Category}"/>
-                    <GridViewColumn Header="Чек" DisplayMemberBinding="{Binding Check}"/>
+                    <GridViewColumn Header="Чек" DisplayMemberBinding="{Binding Reciept}"/>
                     <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Amount}"/>
                     <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Date}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-    </Grid>
+    </DockPanel>
 </Window>
