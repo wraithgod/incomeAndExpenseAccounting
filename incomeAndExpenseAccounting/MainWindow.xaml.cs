@@ -23,6 +23,15 @@ namespace incomeAndExpenseAccounting
         public MainWindow()
         {
             InitializeComponent();
+            Update();
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock textBlock = (TextBlock)sender;
+            string filePath = textBlock.Text;
+
+            // ...
         }
 
         public void Update() { 
@@ -30,9 +39,10 @@ namespace incomeAndExpenseAccounting
             ChecksList.ItemsSource = content;
         }
 
-        private void AddIncome_Click(object sender, RoutedEventArgs e)
+        private void AddRecord_Click(object sender, RoutedEventArgs e)
         {
-
+            AddRecord addRecord = new AddRecord();
+            addRecord.Show();
         }
 
         private void AddExpense_Click(object sender, RoutedEventArgs e)
@@ -47,6 +57,8 @@ namespace incomeAndExpenseAccounting
 
         private void EditCategory_Click(object sender, RoutedEventArgs e)
         {
+            EditCategory editCategory = new EditCategory();
+            editCategory.Show();
 
         }
 

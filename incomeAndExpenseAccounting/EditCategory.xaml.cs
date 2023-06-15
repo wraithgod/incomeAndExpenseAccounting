@@ -28,7 +28,6 @@ namespace incomeAndExpenseAccounting
 
             // Создание коллекции категорий и заполнение ее данными из базы данных
             Categories = new ObservableCollection<Categories>(AppData.db.Categories.ToList());
-
             // Установка контекста данных для привязки
             DataContext = this;
         }
@@ -40,12 +39,54 @@ namespace incomeAndExpenseAccounting
 
         private void DeleteCategory_Click(object sender, RoutedEventArgs e)
         {
+            if (dataGrid.SelectedItem != null)
+            {
+                // Получаем выделенную строку
+                Categories selectedCategory = (Categories)dataGrid.SelectedItem;
 
+                // Удаляем выделенную строку из источника данных (например, из ObservableCollection)
+                Categories.Remove(selectedCategory);
+
+                // Здесь вы можете выполнить необходимую логику удаления строки из базы данных
+
+                // Очищаем выделение в таблице
+                dataGrid.SelectedItem = null;
+            }
         }
 
         private void AddCategory_Click(object sender, RoutedEventArgs e)
         {
+            string newCategoryName = txtNewCategory.Text;
 
+            if (!string.IsNullOrEmpty(newCategoryName))
+            {
+
+                Categories newCategory = new Categories()
+                {
+                    Name = newCategoryName
+                };
+
+                Categories.Add(newCategory);
+
+                AppData.db.Categories.Add(newCategory);
+                AppData.db.SaveChanges();
+
+                dataGrid.ItemsSource = null;
+                dataGrid.ItemsSource = Categories;
+
+                // Очистка TextBox
+                txtNewCategory.Text = string.Empty;
+
+            }
+            else {
+                MessageBox.Show("Напишите название категории");
+            }
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = null;
+            dataGrid.ItemsSource = Categories;
         }
     }
 }

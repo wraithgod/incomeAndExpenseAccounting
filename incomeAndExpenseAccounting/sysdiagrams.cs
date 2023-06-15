@@ -12,17 +12,12 @@ namespace incomeAndExpenseAccounting
     using System;
     using System.Collections.Generic;
     
-    public partial class Expenses
+    public partial class sysdiagrams
     {
-        public int ExpenseId { get; set; }
-        public int UserId { get; set; }
-        public decimal Amount { get; set; }
-        public System.DateTime Date { get; set; }
-        public Nullable<int> CategoryId { get; set; }
-        public string Description { get; set; }
-        public byte[] Reciept { get; set; }
-    
-        public virtual Categories Categories { get; set; }
-        public virtual Users Users { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

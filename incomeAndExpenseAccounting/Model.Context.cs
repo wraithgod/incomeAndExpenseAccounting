@@ -13,10 +13,10 @@ namespace incomeAndExpenseAccounting
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class kursa4Entities1 : DbContext
+    public partial class kursa4Entities2 : DbContext
     {
-        public kursa4Entities1()
-            : base("name=kursa4Entities1")
+        public kursa4Entities2()
+            : base("name=kursa4Entities2")
         {
         }
     
@@ -29,6 +29,7 @@ namespace incomeAndExpenseAccounting
         public virtual DbSet<Expenses> Expenses { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
     }
 }

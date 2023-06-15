@@ -19,6 +19,7 @@ namespace incomeAndExpenseAccounting
     /// </summary>
     public partial class LoginPage : Window
     {
+        public int userId = 0;
         public LoginPage()
         {
             InitializeComponent();
@@ -38,7 +39,7 @@ namespace incomeAndExpenseAccounting
         {
             // Searching for a user in the db
             var user = AppData.db.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-
+            userId = user.UsersId;
             if (user != null) { return true; } else { return false; }
         }
 

@@ -2,27 +2,32 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:incomeAndExpenseAccounting"
-        Title="Edit Category" Height="262" Width="800">
+        Title="Edit Category" Height="462" Width="804" ResizeMode="NoResize">
+    <Window.Background>
+        <SolidColorBrush Color="#1E1E1E"/>
+    </Window.Background>
+    <Window.Foreground>
+        <SolidColorBrush Color="White"/>
+    </Window.Foreground>
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <DataGrid ItemsSource="{Binding Categories}" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,252" Grid.RowSpan="3">
+    <Grid Margin="20,20,20,82" Height="314">
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Categories}" AutoGenerateColumns="False" Grid.Row="0">
+            <DataGrid.Background>
+                <SolidColorBrush Color="#333333"/>
+            </DataGrid.Background>
+            <DataGrid.Foreground>
+                <SolidColorBrush Color="White"/>
+            </DataGrid.Foreground>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Категория" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="id" Binding="{Binding CategoryId}" Width="50" />
+                <DataGridTextColumn Header="Категория" Binding="{Binding Name}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
-
-        <TextBox x:Name="txtNewCategory" Width="200" Height="30" Margin="380,154,180,210" Grid.Row="2" />
-        <Button Content="Добавить" Width="100" Height="30" Click="AddCategory_Click" Margin="598,154,62,210" Grid.Row="2" />
-
-        <StackPanel Orientation="Horizontal" Margin="4,142,544,199" Grid.Row="2">
-            <Button Content="Изменить" Width="100" Height="30" Margin="0,0,10,0" Click="EditCategory_Click" />
-            
-            <Button Content="Удалить" Width="100" Height="30" Click="DeleteCategory_Click" />
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,314,0,-92" Width="764">
+            <TextBox x:Name="txtNewCategory" Width="168" Height="30" Margin="20" Background="#333333" Foreground="White"/>
+            <Button Content="Добавить" Width="76" Height="30" Click="AddCategory_Click" Grid.Row="1" Background="#333333" Foreground="White"/>
+            <Button Content="Удалить выбранное" Width="132" Height="30" Click="DeleteCategory_Click" Margin="30" Background="#333333" Foreground="White"/>
+            <Button Content="Обновить" Width="75" Height="30" Click="Update_Click" Margin="30" Background="#333333" Foreground="White"></Button>
         </StackPanel>
     </Grid>
 </Window>
