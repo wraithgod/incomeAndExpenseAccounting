@@ -74,7 +74,7 @@ namespace incomeAndExpenseAccounting
                 DateTime date = datePicker.SelectedDate ?? DateTime.Now;
                 int userid = GetCurrentUserId();
                 try{
-                    ExecuteSql($"insert into Expenses (UserId, Amount, Date, CategoryId, Description) values ({userid},{amount},{date},{selectedId},{description});");
+                    ExecuteSql($"insert into Expenses (UserId, Amount, Date, CategoryId, Description) values ('{userid}', '{amount}','{date}', '{selectedId}','{description}');");
                     MessageBox.Show("Данные успешно добавлены!");
                 } catch {
                     MessageBox.Show("Ошибка запроса");
