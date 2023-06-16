@@ -85,7 +85,9 @@ namespace incomeAndExpenseAccounting
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,
-                        Password = password
+                        Password = password,
+                        RoleId = 2,
+                        Balance = 0,
                     };
 
                     // Add the new user to the Users table

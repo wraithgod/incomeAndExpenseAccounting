@@ -5,22 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:incomeAndExpenseAccounting"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Основное окно" Height="450" Width="800">
 
     <Window.Resources>
-        <!-- Стиль для ListView с темной темой -->
+        <!-- Стили -->
         <Style TargetType="ListView">
             <Setter Property="Background" Value="#333333"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
         </Style>
 
-        <!-- Стиль для TextBlock с темной темой -->
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial"/>
         </Style>
 
-        <!-- Стиль для Button с черным фоном и белым текстом -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="Black"/>
             <Setter Property="Foreground" Value="White"/>
@@ -28,62 +26,21 @@
     </Window.Resources>
 
     <DockPanel Background="#222222">
-        <!--<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <TextBlock Margin="10,12,0,0">Ваш текущий баланс:</TextBlock>
-            <TextBlock  Margin="10,12,0,0" x:Name="Баланс" Text="{Binding Users.Balance}"/>
-            <TextBlock Text="₽" Margin="10,12,0,0"/>
-        </StackPanel>-->
-
-        <StackPanel DockPanel.Dock="Right" Orientation="Vertical" Margin="10">
-            <Button Content="Изменить категории" Click="EditCategory_Click"/>
-        </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-            <Button Content="Добавить доход" Margin="10" Click="AddRecord_Click"/>
-
+            <Button Content="Добавить запись" Margin="10" Click="AddRecord_Click"/>
             <Button Content="Экспорт данных" Margin="10" Click="ExportData_Click"/>
-
+            <Button Content="Отправить сообщение администратору" Margin="10" Click="SendMessage_Click"/>
             <Button Content="Обновить" Margin="10" Click="UpdateClick"/>
         </StackPanel>
 
-        <ListView x:Name="ChecksList" Margin="10">
+        <ListView x:Name="ChecksList" Margin="10" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Description}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Description}" Style="{StaticResource DarkTextBlockStyle}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Categories.Name}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Categories.Name}" Style="{StaticResource DarkTextBlockStyle}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Чек">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Reciept}" MouseDown="TextBlock_MouseDown" TextDecorations="Underline" Foreground="Blue" Cursor="Hand"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Amount}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Amount}" Style="{StaticResource DarkTextBlockStyle}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Date}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Date}" Style="{StaticResource DarkTextBlockStyle}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Path=Description}"/>
+                    <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Path=Name}"/>
+                    <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=Amount}"/>
+                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Path=Date}"/>
                 </GridView>
             </ListView.View>
         </ListView>

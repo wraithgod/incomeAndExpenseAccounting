@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:incomeAndExpenseAccounting"
         mc:Ignorable="d"
-        Title="AddRecord" Height="450" Width="800">
+        Title="Добавить запись" Height="450" Width="800">
     <Window.Background>
         <SolidColorBrush Color="#1E1E1E"/>
     </Window.Background>
@@ -23,21 +23,17 @@
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Описание</TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,80,0,-80" Grid.RowSpan="2">
-            <ComboBox x:Name="txtNewCategory" ItemsSource="{Binding Categories}" Width="168" Height="30" Margin="20" Background="#333333" Foreground="White"/>
+            <ComboBox x:Name="txtNewCategory" Width="168" Height="30" Margin="20" Background="#333333"/>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Категория</TextBlock>
         </StackPanel>
-        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,77,0,-167" Grid.Row="1" Width="263">
-            <Button Content="Добавить файл" Width="168" Height="30" Margin="20" Click="Button_Click" Background="#333333" Foreground="White"/>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Чек</TextBlock>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,167,0,-237" Grid.Row="1" Width="263">
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,80,0,-150" Grid.Row="1" Width="264">
             <TextBox x:Name="summ" Width="168" Height="30" Margin="20" Background="#333333" Foreground="White"/>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Сумма</TextBlock>
         </StackPanel>
-        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="268,242,0,-312" Grid.Row="1">
-            <DatePicker x:Name="datePicker" Width="168" Height="30" Margin="20" Background="#333333" Foreground="White"/>
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0,150,0,-220" Grid.Row="1" Width="264">
+            <DatePicker x:Name="datePicker" Width="168" Height="30" Margin="20" Background="#333333"/>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Дата</TextBlock>
         </StackPanel>
-        <Button Margin="602,277,29,-312" Grid.Row="1" Click="Button_Click_1" Background="#333333" Foreground="White">Добавить запись</Button>
+        <Button Margin="316,275,316,-310" Grid.Row="1" Click="Button_Click_1" Background="#333333" Foreground="White">Добавить запись</Button>
     </Grid>
 </Window>

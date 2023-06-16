@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace incomeAndExpenseAccounting
 {
@@ -21,58 +23,73 @@ namespace incomeAndExpenseAccounting
     /// </summary>
     public partial class AddRecord : Window
     {
-        string filePath;
+        private int GetCurrentUserId()
+        {
+            string filePath = "C://Temp/incomeAndExpense/cookies.txt";
+            string usersId = File.ReadAllText(filePath);
+            return Int32.Parse(usersId);
+        }
 
-        
+        static DataTable ExecuteSql(string sql)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection conn = new SqlConnection(
+                "Data Source=ROFLAN;Integrated Security=True;Initial Catalog=kursa4"
+                );
+
+            using (conn)
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataReader read = cmd.ExecuteReader();
+
+                using (read)
+                {
+                    dt.Load(read);
+                }
+            }
+
+            return dt;
+        }
 
         public AddRecord()
         {
             InitializeComponent();
+            DataTable dataTable = ExecuteSql("SELECT * FROM Categories");
+            txtNewCategory.ItemsSource = dataTable.DefaultView;
+            txtNewCategory.DisplayMemberPath = "Name";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                filePath = openFileDialog.FileName;
-                if (string.IsNullOrEmpty(filePath)) {
-                    byte[] fileContent = File.ReadAllBytes(filePath);
-                }
-            }
-        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            // Получение значений из полей формы
-            string description = txtDescription.Text;
-            Categories category = (Categories)txtNewCategory.SelectedItem; // Предполагается, что выбран объект типа Category из ComboBox
-            string reciept = filePath; // Предполагается, что путь к файлу сохранен в переменной filePath
-            decimal amount = decimal.Parse(summ.Text);
-            DateTime date = datePicker.SelectedDate ?? DateTime.Now;
+            try {
+                // Получение значений из полей формы
+                string description = txtDescription.Text;
+                DataRowView selectedRow = txtNewCategory.SelectedItem as DataRowView;
+                string selectedName = selectedRow["Name"].ToString();
+                int selectedId = (int)selectedRow["CategoryId"];
+                decimal amount = decimal.Parse(summ.Text);
+                DateTime date = datePicker.SelectedDate ?? DateTime.Now;
+                int userid = GetCurrentUserId();
+                try{
+                    ExecuteSql($"insert into Expenses (UserId, Amount, Date, CategoryId, Description) values ({userid},{amount},{date},{selectedId},{description});");
+                    MessageBox.Show("Данные успешно добавлены!");
+                } catch {
+                    MessageBox.Show("Ошибка запроса");
+                }
+                
 
-            LoginPage loginPage = new LoginPage();
-
-            // Создание нового объекта Expenses
-            Expenses expenses = new Expenses
-            {
-                Description = description,
-                Categories = category,
-                Reciept = Encoding.UTF8.GetBytes(reciept), // Преобразование строки пути к файлу в массив байтов
-                Amount = amount,
-                Date = date,
-                UserId = loginPage.userId
-            };
-
-            AppData.db.Expenses.Add(expenses);
-            AppData.db.SaveChanges();
-
-            // Очистка полей формы после добавления записи
-            txtDescription.Text = string.Empty;
-            txtNewCategory.SelectedItem = null;
-            filePath = string.Empty; // Очистка переменной filePath или другой переменной, содержащей путь к файлу
-            summ.Text = string.Empty;
-            datePicker.SelectedDate = DateTime.Now;
+                // Очистка полей формы после добавления записи
+                txtDescription.Text = string.Empty;
+                txtNewCategory.SelectedItem = null;
+                summ.Text = string.Empty;
+                datePicker.SelectedDate = DateTime.Now;
+            }
+            catch {
+                MessageBox.Show("Где-то ошибка. Попробуй перепроверить данные");
+            }
         }
     }
 }

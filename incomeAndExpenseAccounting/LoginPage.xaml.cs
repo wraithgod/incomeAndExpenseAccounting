@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace incomeAndExpenseAccounting
 {
@@ -19,7 +20,6 @@ namespace incomeAndExpenseAccounting
     /// </summary>
     public partial class LoginPage : Window
     {
-        public int userId = 0;
         public LoginPage()
         {
             InitializeComponent();
@@ -34,14 +34,27 @@ namespace incomeAndExpenseAccounting
             Window.GetWindow(this).Close();
         }
 
+        public int roleId;
         // Authorization to enter the app
         private bool Authorization(string email, string password)
         {
             // Searching for a user in the db
             var user = AppData.db.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
-            userId = user.UsersId;
-            if (user != null) { return true; } else { return false; }
+            if (user != null)
+            {
+                roleId = user.RoleId;
+                string filePath = "C://Temp//incomeAndExpense/cookies.txt";
+                File.WriteAllText(filePath, user.UsersId.ToString());
+                return true;
+            }
+            else { return false; }
         }
+
+        private bool IsAdmin(int roleId)
+        {
+            if (roleId == 1) { return true; } else { return false; }
+        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -53,13 +66,20 @@ namespace incomeAndExpenseAccounting
             try
             {
                 bool result = Authorization(email, pass);
+                bool isAdmin = IsAdmin(roleId);
 
                 if (result)
                 {
-                    // Closing login page and redirecting to main page
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
+                    if (isAdmin)
+                    {
+                        AdminPanel adminPanel = new AdminPanel();
+                        adminPanel.Show();
 
+                    }
+                    else {
+                        MainWindow mainWindow = new MainWindow();
+                        mainWindow.Show();
+                    }
 
                     Window.GetWindow(this).Close();
 

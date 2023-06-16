@@ -14,18 +14,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Microsoft.Win32;
 using System.IO;
-
 
 namespace incomeAndExpenseAccounting
 {
     /// <summary>
-    /// Логика взаимодействия для EditCategory.xaml
+    /// Логика взаимодействия для EditRoles.xaml
     /// </summary>
-    public partial class EditCategory : Window
+    public partial class EditRoles : Window
     {
-        public ObservableCollection<Categories> Categories { get; set; }
+        public ObservableCollection<Roles> Roles { get; set; }
+        public EditRoles()
+        {
+            InitializeComponent();
+            Roles = new ObservableCollection<Roles>(AppData.db.Roles.ToList());
+            // Установка контекста данных для привязки
+            DataContext = this;
+        }
 
         private int GetCurrentUserId()
         {
@@ -36,8 +41,7 @@ namespace incomeAndExpenseAccounting
 
         static DataTable ExecuteSql(string sql)
         {
-            try
-            {
+
                 DataTable dt = new DataTable();
                 SqlConnection conn = new SqlConnection(
                     "Data Source=ROFLAN;Integrated Security=True;Initial Catalog=kursa4"
@@ -57,67 +61,55 @@ namespace incomeAndExpenseAccounting
                 }
 
                 return dt;
-            }
-            catch {
-                MessageBox.Show("Нельзя удалить данную категорию пока с ней имеется запись");
-            }
-            return null;
-        }
 
-        public EditCategory()
-        {
-            InitializeComponent();
-
-            // Создание коллекции категорий и заполнение ее данными из базы данных
-            Categories = new ObservableCollection<Categories>(AppData.db.Categories.ToList());
-            // Установка контекста данных для привязки
-            DataContext = this;
         }
 
 
-        private void DeleteCategory_Click(object sender, RoutedEventArgs e)
+        private void DeleteRole_Click(object sender, RoutedEventArgs e)
         {
             if (dataGrid.SelectedItem != null)
             {
                 // Получаем выделенную строку
-                Categories selectedCategory = (Categories)dataGrid.SelectedItem;
-                int selectedCategoryId = selectedCategory.CategoryId;
+                Roles selectedRole = (Roles)dataGrid.SelectedItem;
+                int selectedRoleId = selectedRole.RoleId;
                 // Удаляем выделенную строку из источника данных (например, из ObservableCollection)
-                Categories.Remove(selectedCategory);
+                Roles.Remove(selectedRole);
+
 
                 // Здесь вы можете выполнить необходимую логику удаления строки из базы данных
-                ExecuteSql($"delete from Categories where CategoryId = {selectedCategoryId};");
+                ExecuteSql($"delete from Roles where RoleId = {selectedRoleId};");
                 // Очищаем выделение в таблице
                 dataGrid.SelectedItem = null;
 
             }
         }
 
-        private void AddCategory_Click(object sender, RoutedEventArgs e)
+        private void AddRole_Click(object sender, RoutedEventArgs e)
         {
-            string newCategoryName = txtNewCategory.Text;
+            string newRoleName = txtNewRole.Text;
 
-            if (!string.IsNullOrEmpty(newCategoryName))
+            if (!string.IsNullOrEmpty(newRoleName))
             {
 
-                Categories newCategory = new Categories()
+                Roles newRole = new Roles()
                 {
-                    Name = newCategoryName
+                    Name = newRoleName
                 };
 
-                Categories.Add(newCategory);
+                Roles.Add(newRole);
 
-                AppData.db.Categories.Add(newCategory);
+                AppData.db.Roles.Add(newRole);
                 AppData.db.SaveChanges();
 
                 dataGrid.ItemsSource = null;
-                dataGrid.ItemsSource = Categories;
+                dataGrid.ItemsSource = Roles;
 
                 // Очистка TextBox
-                txtNewCategory.Text = string.Empty;
+                txtNewRole.Text = string.Empty;
 
             }
-            else {
+            else
+            {
                 MessageBox.Show("Напишите название категории");
             }
         }
@@ -125,7 +117,7 @@ namespace incomeAndExpenseAccounting
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = null;
-            dataGrid.ItemsSource = Categories;
+            dataGrid.ItemsSource = Roles;
         }
     }
 }

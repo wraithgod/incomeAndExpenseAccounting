@@ -1,0 +1,22 @@
+﻿<Window x:Class="incomeAndExpenseAccounting.SendMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:incomeAndExpenseAccounting"
+        mc:Ignorable="d"
+        Title="Форма для отправки сообщения" Height="467" Width="790">
+    <Window.Background>
+        <SolidColorBrush Color="#1E1E1E"/>
+    </Window.Background>
+    <Window.Foreground>
+        <SolidColorBrush Color="White"/>
+    </Window.Foreground>
+
+    <Grid Margin="20,29,30,146">
+        <TextBox x:Name="messageBox" Background="Black" Foreground="White"/>
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="-16,281,0,-114" Width="895">
+            <Button Content="Отправить" Margin="30" Width="94" Height="30" Click="SendMessage_Click" Background="#333333" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

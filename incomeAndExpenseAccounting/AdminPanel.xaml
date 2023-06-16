@@ -5,24 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:incomeAndExpenseAccounting"
         mc:Ignorable="d"
-        Title="AdminPanel" Height="450" Width="800">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        Title="Панель администратора" Height="450" Width="800">
+    <Window.Resources>
+        <!-- Стили -->
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="450,0,184,343" Height="20" VerticalAlignment="Bottom"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial"/>
+        </Style>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Transactions}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged" Margin="0,105,0,0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" />
-                <DataGridCheckBoxColumn Header="Чек" Binding="{Binding IsChecked}" />
-                <DataGridTextColumn Header="Сумма" Binding="{Binding Amount}" />
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Background="#222222">
+
+
+        <StackPanel DockPanel.Dock="Right" Orientation="Vertical" Margin="10" Height="410">
+            <Button Content="Изменить категории" Click="EditCategory_Click" Margin="10"/>
+            <Button Content="Изменить пользователей" Click="EditUsers_Click" Margin="10"/>
+            <Button Content="Изменить роли" Click="EditRoles_Click" Margin="10"/>
+            <Button Content="Просмотреть сообщения" Click="viewMessages_Click" Margin="10"/>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+            <Button Content="Добавить запись" Margin="10" Click="AddRecord_Click"/>
+            <Button Content="Экспорт данных" Margin="10" Click="ExportData_Click"/>
+            <Button Content="Удалить выбранную запись" Margin="10" Click="DeleteSelected_Click"/>
+        </StackPanel>
+
+        <ListView x:Name="ChecksList" ItemsSource="{Binding Expenses}" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Айди пользователя" DisplayMemberBinding="{Binding Path=UserId}" />
+                    <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding Path=Description}" />
+                    <GridViewColumn Header="Категория" DisplayMemberBinding="{Binding Path=CategoryId}" />
+                    <GridViewColumn Header="Сумма" DisplayMemberBinding="{Binding Path=Amount}" />
+                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding Path=Date}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
 </Window>
