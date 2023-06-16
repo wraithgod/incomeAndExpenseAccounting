@@ -8,6 +8,6 @@ namespace incomeAndExpenseAccounting
 {
     public static class AppData
     {
-        public static kursa4Entities2 db = new kursa4Entities2();
+        public static kursa4Entities db = new kursa4Entities();
     }
 }
