@@ -28,7 +28,6 @@ namespace incomeAndExpenseAccounting
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Expenses> Expenses { get; set; }
         public virtual DbSet<Log> Log { get; set; }
-        public virtual DbSet<Messages> Messages { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }

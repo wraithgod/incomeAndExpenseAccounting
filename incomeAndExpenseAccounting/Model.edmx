@@ -11,6 +11,7 @@
           </Key>
           <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Expenses">
           <Key>
@@ -31,14 +32,6 @@
           <Property Name="LogId" Type="int" Nullable="false" />
           <Property Name="UsersId" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Messages">
-          <Key>
-            <PropertyRef Name="MessagesId" />
-          </Key>
-          <Property Name="MessagesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UsersId" Type="int" Nullable="false" />
-          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -69,6 +62,18 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <Association Name="FK_Categories_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UsersId" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Expenses_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
@@ -105,18 +110,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UsersId" />
-            </Principal>
-            <Dependent Role="Messages">
-              <PropertyRef Name="UsersId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -133,10 +126,13 @@
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Categories_Users" Association="Self.FK_Categories_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
           <AssociationSet Name="FK_Expenses_Categories" Association="Self.FK_Expenses_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Expenses" EntitySet="Expenses" />
@@ -148,10 +144,6 @@
           <AssociationSet Name="FK_Log_Users" Association="Self.FK_Log_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_Users" Association="Self.FK_Messages_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -169,6 +161,8 @@
           </Key>
           <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Categories_Users" FromRole="Categories" ToRole="Users" />
           <NavigationProperty Name="Expenses" Relationship="Self.FK_Expenses_Categories" FromRole="Categories" ToRole="Expenses" />
         </EntityType>
         <EntityType Name="Expenses">
@@ -193,15 +187,6 @@
           <Property Name="UsersId" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Log_Users" FromRole="Log" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="Messages">
-          <Key>
-            <PropertyRef Name="MessagesId" />
-          </Key>
-          <Property Name="MessagesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UsersId" Type="Int32" Nullable="false" />
-          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Messages_Users" FromRole="Messages" ToRole="Users" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -232,11 +217,23 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_Categories_Users" FromRole="Users" ToRole="Categories" />
           <NavigationProperty Name="Expenses" Relationship="Self.FK_Expenses_Users" FromRole="Users" ToRole="Expenses" />
           <NavigationProperty Name="Log" Relationship="Self.FK_Log_Users" FromRole="Users" ToRole="Log" />
-          <NavigationProperty Name="Messages" Relationship="Self.FK_Messages_Users" FromRole="Users" ToRole="Messages" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
         </EntityType>
+        <Association Name="FK_Categories_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UsersId" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Expenses_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
@@ -273,18 +270,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UsersId" />
-            </Principal>
-            <Dependent Role="Messages">
-              <PropertyRef Name="UsersId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -301,10 +286,13 @@
           <EntitySet Name="Categories" EntityType="Self.Categories" />
           <EntitySet Name="Expenses" EntityType="Self.Expenses" />
           <EntitySet Name="Log" EntityType="Self.Log" />
-          <EntitySet Name="Messages" EntityType="Self.Messages" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Categories_Users" Association="Self.FK_Categories_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
           <AssociationSet Name="FK_Expenses_Categories" Association="Self.FK_Expenses_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Expenses" EntitySet="Expenses" />
@@ -316,10 +304,6 @@
           <AssociationSet Name="FK_Log_Users" Association="Self.FK_Log_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Log" EntitySet="Log" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_Users" Association="Self.FK_Messages_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -337,6 +321,7 @@
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -359,15 +344,6 @@
                 <ScalarProperty Name="LogId" ColumnName="LogId" />
                 <ScalarProperty Name="UsersId" ColumnName="UsersId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="kursa4Model.Messages">
-              <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="MessagesId" ColumnName="MessagesId" />
-                <ScalarProperty Name="UsersId" ColumnName="UsersId" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
