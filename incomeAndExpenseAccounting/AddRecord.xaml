@@ -34,6 +34,7 @@
             <DatePicker x:Name="datePicker" Width="168" Height="30" Margin="20" Background="#333333"/>
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Дата</TextBlock>
         </StackPanel>
-        <Button Margin="316,275,316,-310" Grid.Row="1" Click="Button_Click_1" Background="#333333" Foreground="White">Добавить запись</Button>
+        <Button Margin="452,272,180,-307" Grid.Row="1" Click="Button_Click_2" Background="#FF9A524B" Foreground="White">Добавить расход</Button>
+        <Button Margin="180,272,452,-307" Grid.Row="1" Click="Button_Click_1" Background="#FF538651" Foreground="White">Добавить доход</Button>
     </Grid>
 </Window>

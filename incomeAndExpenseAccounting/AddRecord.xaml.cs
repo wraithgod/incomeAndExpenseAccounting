@@ -91,5 +91,40 @@ namespace incomeAndExpenseAccounting
                 MessageBox.Show("Где-то ошибка. Попробуй перепроверить данные");
             }
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Получение значений из полей формы
+                string description = txtDescription.Text;
+                DataRowView selectedRow = txtNewCategory.SelectedItem as DataRowView;
+                string selectedName = selectedRow["Name"].ToString();
+                int selectedId = (int)selectedRow["CategoryId"];
+                decimal amount = decimal.Parse(summ.Text);
+                DateTime date = datePicker.SelectedDate ?? DateTime.Now;
+                int userid = GetCurrentUserId();
+                try
+                {
+                    ExecuteSql($"insert into Expenses (UserId, Amount, Date, CategoryId, Description) values ('{userid}', '-{amount}','{date}', '{selectedId}','{description}');");
+                    MessageBox.Show("Данные успешно добавлены!");
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка запроса");
+                }
+
+
+                // Очистка полей формы после добавления записи
+                txtDescription.Text = string.Empty;
+                txtNewCategory.SelectedItem = null;
+                summ.Text = string.Empty;
+                datePicker.SelectedDate = DateTime.Now;
+            }
+            catch
+            {
+                MessageBox.Show("Где-то ошибка. Попробуй перепроверить данные");
+            }
+        }
     }
 }
